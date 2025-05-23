@@ -390,7 +390,7 @@ form.addEventListener('submit', async e => {
     const product = {
       product_name: document.getElementById('productName').value,
       category: document.getElementById('productCategory').value,
-      price: disp,
+      price: disp, // or whatever price logic you use
       description: document.getElementById('productDescription').value,
       image_url: data.secure_url,
       seller_name: document.getElementById('sellerName').value,
@@ -399,11 +399,15 @@ form.addEventListener('submit', async e => {
     };
 
     await push(ref(db, 'products'), product);
-    fetch('https://script.google.com/macros/s/AKfycbyVVpD3hZEWHmcgUtzcuLykXxYkLhe8q6QOqbo9bd_5tYr--aZdsn7IWWe56keR0TXC/exec', {
-      method: 'POST',
-      body: JSON.stringify(product),
-      headers: { 'Content-Type': 'application/json' }
-    });
+await fetch('https://script.google.com/macros/s/AKfycbzFhONPJszPkpqa88XfVTQ7Pf98VSvdZAiAuUcKDKloL2F_D3qrMJWEm4JzGHbrkkQ8_g/exec', {
+  method: 'POST',
+  body: JSON.stringify(product),
+  headers: { 'Content-Type': 'application/json' }
+})
+.then(response => response.text())
+.then(result => console.log('Apps Script Success:', result))
+.catch(error => console.error('Apps Script Error:', error));
+    
     
     spinner.style.display = 'none';
 
@@ -481,7 +485,7 @@ if (paymentProofForm) {
     }
   });
 }
-
+ form.reset();
   } catch (err) {
     console.error(err);
     alert("❌ Error uploading image: " + err.message);
@@ -489,7 +493,7 @@ if (paymentProofForm) {
     spinner.style.display = 'none';
   }
   });
-  form.reset();
+ 
 
   // 9. FETCH & DISPLAY PRODUCTS
   function displayProducts(query='') {
