@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market place</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+  <!-- Back to Top Button -->
+  <button id="backToTopBtn" title="Go to top">↑</button>
+
+  <!-- JavaScript -->
+  <script>
+    window.onscroll = function () {
+      scrollFunction();
+    };
+
+    function scrollFunction() {
+      const btn = document.getElementById("backToTopBtn");
+      if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        btn.style.display = "block";
+      } else {
+        btn.style.display = "none";
+      }
+    }
+
+    document.getElementById('backToTopBtn').addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+
+  <header>
+    <div class="navbar">
+      <div class="nav-logo">
+        <img src="EKD logo.jpeg" alt="Logo" class="logo-img" />
+      </div>
+      <div class="nav-cart" onclick="window.location.href='cart.html'">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span>Cart</span>
+        <span id="cart-count" class="cart-badge"></span>
+      </div>
+      <div class="nav-search">
+        <select class="select-search" id="categoryFilter">
+          <option value="All">All</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Books">Books</option>
+          <option value="Calculators">Calculators</option>
+          <option value="Stationery">Stationery</option>
+          <option value="Laptops">Laptops</option>
+          <option value="Smartphones">Smartphones</option>
+          <option value="Gaming">Gaming</option>
+          <option value="Beauty">Beauty</option>
+          <option value="Pets">Pets</option>
+          <option value="Clothing">Clothing</option>
+          <option value="Accessories">Accessories</option>
+          <option value="Home Essentials">Home Essentials</option>
+          <option value="Art & Craft">Art & Craft</option>
+          <option value="Furniture">Furniture</option>
+          <option value="Sports">Sports</option>
+          <option value="Music">Music</option>
+          <option value="Kitchen">Kitchen</option>
+          <option value="Toys">Toys</option>
+          <option value="Other">Other</option>
+        </select>
+        <input type="text" class="search-input" id="searchInput" placeholder="Search products...">
+       
+      </div>
+      <div class="nav-user" style="color:white; font-weight: normal; margin-right: 10px;">
+        <span id="userEmail" style="display: none;"></span>
+      </div>
+      <div class="nav-login">
+        <button id="navbarLoginBtn" class="login-btn">Login</button>
+        <button id="logoutBtn" class="logout-btn" style="display: none;">Logout</button>
+      </div>
+      <div id="recaptcha-container"></div>
+      <!-- Admin login -->
+      <div class="admin-scroll">
+        <button id="adminLoginBtn" class="login-btn">Admin</button>
+      </div>
+      
+    </div>
+    <div class="body">
+      <div class="p">
+        <h2 class="text">Marketplace</h2>
+      </div>
+    </div>
+  </header>
+
+  <div class="trial">
+    <h1>Available Items</h1>
+  </div>
+
+  <div class="shop-section">
+    <div class="scrollable-products" id="scrollableProducts"></div>
+    <div class="grid-products" id="gridProducts"></div>
+
+  </div>
+
+  <!-- SELL PRODUCT -->
+<section id="sell" class="sell-section">
+  <div class="sell-container">
+    <h2 class="sell-title">Sell Your Product</h2>
+    <p class="sell-subtitle">Fill the details below and reach thousands of customers!</p>
+
+    <form id="sellForm" class="sell-form">
+      <div class="form-group">
+        <input type="text" id="productName" placeholder="Product Name" required>
+      </div>
+
+      <div class="form-group">
+        <select id="productCategory" required>
+          <option value="">Select a category</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Books">Books</option>
+          <option value="Calculators">Calculators</option>
+          <option value="Stationery">Stationery</option>
+          <option value="Laptops">Laptops</option>
+          <option value="Smartphones">Smartphones</option>
+          <option value="Gaming">Gaming</option>
+          <option value="Beauty">Beauty</option>
+          <option value="Clothing">Clothing</option>
+          <option value="Accessories">Accessories</option>
+          <option value="Art & Craft">Art & Craft</option>
+          <option value="Sports">Sports</option>
+          <option value="Music">Music</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <input type="number" id="productPrice" placeholder="Price (in ₹)" required>
+      </div>
+
+      <div class="form-group">
+        <textarea id="productDescription" placeholder="Description" rows="4" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <input type="file" id="imageFile" accept="image/*" required>
+      </div>
+
+      <!-- Seller Details -->
+      <div class="form-group">
+        <input type="text" id="sellerName" placeholder="Your Name" required>
+      </div>
+
+      <div class="form-group">
+        <input type="tel" id="sellerMobile" placeholder="Your Mobile Number" required>
+      </div>
+
+      <!-- Loader -->
+      <div id="loading-spinner" style="display: none;">
+        <p>Submitting...</p>
+      </div>
+
+      <button type="submit" class="sell-btn">Submit Product</button>
+    </form>
+  </div>
+</section>
+
+
+  <!-- new footer -->
+  <footer class="marketplace-footer">
+    <div class="footer-top">
+      <div class="footer-logo">
+        <a href="#" class="footer-logo-link">
+          <img src="EKD logo.jpeg" alt="Marketplace Logo" width="150px">
+        </a>
+      </div>
+      <div class="footer-links">
+        <div class="footer-link-column">
+          <h3>Marketplace</h3>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">Shop</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-link-column">
+          <h3>Customer Service</h3>
+          <ul>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">Shipping</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="footer-link-column">
+          <h3>Follow Us</h3>
+          <ul class="social-media">
+            <!-- <li><a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a></li>
+            <li><a href="#" class="social-icon twitter"><i class="fab fa-twitter"></i></a></li> -->
+            <li><a href="https://www.instagram.com/aditya_taywade123?igsh=MWg2d2l6c2R1amZjZw=="
+                class="social-icon instagram"><i class="fab fa-instagram"></i></a></li>
+            <li><a
+                href="https://www.linkedin.com/in/aditya-taywade-b514b4331?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+                class="social-icon linkedin"><i class="fab fa-linkedin"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 Marketplace | All rights reserved.</p>
+    </div>
+  </footer>
+
+<!-- Font Awesome CDN for Social Icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<!-- All your JS in one module -->
+<script type="module">
+  // 1. Imports
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+  import {
+    getDatabase, ref, push, onValue, remove
+  } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut,
+    sendEmailVerification,
+    signInWithPhoneNumber,
+    RecaptchaVerifier,
+    GoogleAuthProvider,
+    signInWithPopup
+  } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+
+  // 2. Firebase config & init
+  const firebaseConfig = {
+    apiKey: "AIzaSyAbDaEt1ACIRNyC4QerqZQhTO8VJuNoWfE",
+    authDomain: "marketplace-378f6.firebaseapp.com",
+    databaseURL: "https://marketplace-378f6-default-rtdb.firebaseio.com",
+    projectId: "marketplace-378f6",
+    storageBucket: "marketplace-378f6.firebasestorage.app",
+    messagingSenderId: "519512596002",
+    appId: "1:519512596002:web:b4cd5978ffa111ef55b47b",
+    measurementId: "G-7XT82KHEGS"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getDatabase(app);
+
+  // 3. Track current user globally
+  let currentUser = null;
+  onAuthStateChanged(auth, user => {
+    currentUser = user;
+    // Cart badge update
+    if (user) {
+      const cartRef = ref(db, `carts/${user.uid}`);
+      onValue(cartRef, snap => {
+        const badge = document.getElementById("cartBadge");
+        const items = snap.val();
+        const count = items ? Object.keys(items).length : 0;
+        if (badge) {
+          badge.textContent = count;
+          badge.style.display = count>0?'inline-block':'none';
+        }
+      });
+    }
+  });
+
+  // 4. Login / Logout UI
+  document.getElementById('navbarLoginBtn').onclick = () =>
+    document.getElementById('loginModal').style.display = 'block';
+  document.getElementById('logoutBtn').onclick = () => signOut(auth);
+
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      document.getElementById('loginModal').style.display = 'none';
+      document.getElementById('logoutBtn').style.display = 'inline-block';
+      const u = document.getElementById('userEmail');
+      if (u) { u.textContent = `Your ID is - ${user.email}`; u.style.display='inline-block' }
+      document.getElementById('navbarLoginBtn').style.display = 'none';
+    } else {
+      document.getElementById('logoutBtn').style.display = 'none';
+      document.getElementById('userEmail').style.display = 'none';
+      document.getElementById('navbarLoginBtn').style.display = 'inline-block';
+    }
+  });
+
+  // 5. reCAPTCHA
+  window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+    size: 'invisible',
+    callback: () => {}
+  });
+
+  // 6. Admin login
+  const adminCreds = { username: "adminuser", password: " " };
+  let isAdmin = false;
+  document.getElementById("adminLoginBtn").onclick = () =>
+    document.getElementById("adminLoginModal").style.display = "block";
+  document.getElementById("adminLoginSubmit").onclick = () => {
+    const u = document.getElementById("adminUsername").value;
+    const p = document.getElementById("adminPassword").value;
+    if (u===adminCreds.username && p===adminCreds.password) {
+      alert("✅ Admin logged in!"); isAdmin=true;
+      document.getElementById("adminLoginModal").style.display="none";
+      displayProducts();
+    } else alert("❌ Invalid admin credentials.");
+  };
+
+  // 7. Auth UI Logic (register/login/google)
+  document.getElementById('registerBtn').onclick = () => {
+    const e=document.getElementById('authEmail').value,
+          p=document.getElementById('authPassword').value;
+    createUserWithEmailAndPassword(auth,e,p)
+      .then(uc=>sendEmailVerification(uc.user).then(()=>{
+        alert("✅ Verification sent, please check email.");
+        document.getElementById('loginModal').style.display='none';
+        signOut(auth);
+      }))
+      .catch(err=>alert("❌ Registration failed: "+err.message));
+  };
+
+  document.getElementById('loginBtn').onclick = () => {
+    const e=document.getElementById('authEmail').value,
+          p=document.getElementById('authPassword').value;
+    signInWithEmailAndPassword(auth,e,p)
+      .then(uc=>{
+        if(uc.user.emailVerified){
+          alert("✅ Logged in!");document.getElementById('loginModal').style.display='none';
+        } else {
+          alert("❌ Please verify email.");signOut(auth);
+        }
+      })
+      .catch(err=>alert("❌ Login failed: "+err.message));
+  };
+
+  document.getElementById('googleLoginBtn').onclick = () => {
+    const prov = new GoogleAuthProvider();
+    signInWithPopup(auth,prov)
+      .then(()=>{ alert("✅ Google Sign-In successful!"); document.getElementById('loginModal').style.display='none'; })
+      .catch(err=>alert("❌ Google Sign-In failed: "+err.message));
+  };
+
+ // 8. SELL FORM SUBMISSION
+
+const form = document.getElementById('sellForm');
+const spinner = document.getElementById('loading-spinner');
+const cloudName = 'dobzp321s';
+const uploadPreset = 'your_upload_preset';
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+
+  if (!currentUser) {
+    alert("Please log in to submit your product.");
+    document.getElementById('loginModal').style.display = 'block';
+    return;
+  }
+
+  spinner.style.display = 'block';
+
+  const imageFile = document.getElementById("imageFile").files[0];
+  if (!imageFile) {
+    alert("Please select an image file.");
+    spinner.style.display = 'none';
+    return;
+  }
+
+  const fd = new FormData();
+  fd.append('file', imageFile);
+  fd.append('upload_preset', uploadPreset);
+
+  try {
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+      method: 'POST',
+      body: fd
+    });
+
+    const data = await res.json();
+    if (!data.secure_url) throw new Error('Cloudinary upload failed');
+
+    const orig = parseFloat(document.getElementById('productPrice').value);
+    const disp = (orig * 1.025).toFixed(2);
+
+    const product = {
+      product_name: document.getElementById('productName').value,
+      category: document.getElementById('productCategory').value,
+      price: disp,
+      description: document.getElementById('productDescription').value,
+      image_url: data.secure_url,
+      seller_name: document.getElementById('sellerName').value,
+      seller_mobile: document.getElementById('sellerMobile').value,
+      submitted_by: currentUser.email
+    };
+
+    await push(ref(db, 'products'), product);
+    fetch('https://script.google.com/macros/s/AKfycbyVVpD3hZEWHmcgUtzcuLykXxYkLhe8q6QOqbo9bd_5tYr--aZdsn7IWWe56keR0TXC/exec', {
+      method: 'POST',
+      body: JSON.stringify(product),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    
+    spinner.style.display = 'none';
+
+    const fee = (orig * 0.05).toFixed(2);
+
+    const modalHtml = `
+      <div id="paymentPromptModal" class="modal" style="display:block;position:fixed;z-index:9999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.8);">
+        <div style="background:white;padding:20px;margin:10% auto;width:90%;max-width:500px;text-align:center;border-radius:8px;position:relative;">
+          <span id="closePaymentModal" style="position:absolute;top:10px;right:20px;cursor:pointer;font-size:24px">&times;</span>
+          <h2>Complete Your Listing</h2>
+          <p>Please pay ₹${fee} to list your product.</p>
+          <img src="payment.jpg" alt="UPI QR" style="max-width:250px;margin:20px 0;"/>
+          <p>UPI ID: <b>dipaktaywade3@okaxis</b></p>
+          <form id="paymentProofForm">
+            <input type="text" id="upiRef" placeholder="Enter UPI Reference ID" required style="width:90%;padding:10px;margin:10px 0;border-radius:6px;border:1px solid #ccc;"/>
+            <input type="file" id="upiScreenshot" accept="image/*" required style="margin:10px 0;"/>
+            <button type="submit" style="padding:10px 20px;background:#4CAF50;color:white;border:none;border-radius:6px;">Confirm Payment</button>
+          </form>
+        </div>
+      </div>`;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+    // Add listeners only after modal is added:
+    const closeBtn = document.getElementById('closePaymentModal');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        const modal = document.getElementById('paymentPromptModal');
+        if (modal) modal.remove();
+      });
+    }
+
+    const paymentProofForm = document.getElementById('paymentProofForm');
+if (paymentProofForm) {
+  paymentProofForm.addEventListener('submit', async event => {
+    event.preventDefault();
+
+    const upiRef = document.getElementById('upiRef').value.trim();
+    const screenshotFile = document.getElementById('upiScreenshot').files[0];
+
+    if (!upiRef || !screenshotFile) {
+      alert("Please enter UPI Reference ID and upload screenshot.");
+      return;
+    }
+
+    try {
+      const fd = new FormData();
+      fd.append('file', screenshotFile);
+      fd.append('upload_preset', uploadPreset);  // ensure uploadPreset is defined
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+        method: 'POST',
+        body: fd
+      });
+
+      const data = await res.json();
+
+      if (!data.secure_url) throw new Error('Cloudinary upload failed');
+
+      const paymentData = {
+        user_email: currentUser.email,
+        upi_ref: upiRef,
+        screenshot_url: data.secure_url,
+        timestamp: Date.now()
+      };
+
+      await push(ref(db, 'payments'), paymentData);
+
+      alert("✅ Payment proof submitted successfully!");
+      document.getElementById('paymentPromptModal').remove();
+
+      paymentProofForm.reset();
+
+    } catch (err) {
+      console.error(err);
+      alert("❌ Error submitting payment proof: " + err.message);
+    }
+  });
+}
+
+  } catch (err) {
+    console.error(err);
+    alert("❌ Error uploading image: " + err.message);
+  } finally {
+    spinner.style.display = 'none';
+  }
+  });
+  form.reset();
+
+  // 9. FETCH & DISPLAY PRODUCTS
+  function displayProducts(query='') {
+    const grid = document.getElementById('gridProducts');
+    grid.innerHTML = '';
+    onValue(ref(db,'products'), snap=>{
+      grid.innerHTML='';
+      snap.forEach(child=>{
+        const p = child.val(), key=child.key;
+        const cat = document.getElementById('categoryFilter').value;
+        if((cat!=='All' && p.category!==cat) ||
+           (query && !p.product_name.toLowerCase().includes(query.toLowerCase()))) 
+          return;
+        const card = document.createElement('div'); card.className='product-card';
+        card.innerHTML=`
+          <div class="product-image" style="background-image:url(${p.image_url})"></div>
+          <h3>${p.product_name}</h3>
+          <p>${p.description}</p>
+          <p><strong>Price:</strong> ₹${p.price}</p>
+          <p><strong>Category:</strong> ${p.category}</p>
+          ${isAdmin?`<button class="delete-btn" data-key="${key}">Delete</button>`:''}`;
+        card.onclick=()=>{ localStorage.setItem('selectedProduct',JSON.stringify(p)); window.location.href='payment.html'; };
+        grid.appendChild(card);
+        if(isAdmin){
+          const btn=card.querySelector('.delete-btn');
+          btn.onclick=e=>{ e.stopPropagation(); remove(ref(db,`products/${key}`)); alert('🗑️ Product deleted!'); };
+        }
+      });
+    });
+  }
+  document.getElementById('categoryFilter').addEventListener('change',()=>displayProducts(document.getElementById('searchInput').value.trim()));
+  document.getElementById('searchInput').addEventListener('input',e=>displayProducts(e.target.value.trim()));
+  displayProducts();
+  
+</script>
+  
+  <!-- Login Modal -->
+
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="document.getElementById('loginModal').style.display='none'">&times;</span>
+      <h2>Login or Register</h2>
+
+      <!-- Email Login -->
+      <input type="email" id="authEmail" placeholder="Enter your email">
+      <input type="password" id="authPassword" placeholder="Enter your password">
+
+      <!-- Google Login -->
+      <button id="googleLoginBtn" class="google-btn">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo" />
+        <span>Sign in with Google</span>
+      </button>
+
+      <!-- Buttons -->
+      <div class="btn-group">
+        <button id="loginBtn">Login</button>
+        <button id="registerBtn">Register</button>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+  <div id="adminLoginModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="document.getElementById('adminLoginModal').style.display='none'">&times;</span>
+      <h2>Admin Login</h2>
+      <input type="text" id="adminUsername" placeholder="Username">
+      <input type="password" id="adminPassword" placeholder="Password">
+      <button id="adminLoginSubmit" class="admin-btn">Login as Admin</button>
+
+    </div>
+  </div>
+
+
+<!-- Payment Modal -->
+<!-- <div id="paymentModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Please Pay ₹<span id="paymentAmount"></span> to List Your Product (5%)</h2>
+    <p>UPI ID: <strong>makechange@okaxis</strong></p>
+    <img src="payment.jpg" alt="QR Code" style="width: 200px; height: 200px;" />
+    <br /><br />
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfR1LE4DSNF7ng-SjS4DVd4cOm8dpxDKdbGjZ7H4AYcwWQYVQ/viewform?usp=header"
+       target="_blank" class="proof-btn">Send Proof of Payment</a>
+  </div>
+</div> -->
+
+</body>
+  
+</html>
